@@ -5,6 +5,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"market-mono/config"
+	"market-mono/model"
 	"market-mono/utils"
 	"time"
 )
@@ -27,7 +28,7 @@ func InitializeDB(sslmode string, timezone string) {
 		}
 	} else {
 		utils.SugarLogger.Infoln("Connected to postgres database")
-		if err := db.AutoMigrate(); err != nil {
+		if err := db.AutoMigrate(&model.User{}, &model.Store{}, &model.Item{}, &model.CartItem{}, &model.Order{}, &model.OrderItem{}, &model.OrderShipping{}); err != nil {
 			utils.SugarLogger.Fatalln("AutoMigration failed: ", err)
 		}
 		utils.SugarLogger.Infoln("AutoMigration complete")
